@@ -14,7 +14,7 @@ export default function Header() {
 
         <div className="flex items-center gap-2 text-xs text-slate-500">
           <span className="h-2 w-2 rounded-full bg-emerald-500" />
-          API Connected
+          {/* API Connected */}
         </div>
       </div>
     </header>

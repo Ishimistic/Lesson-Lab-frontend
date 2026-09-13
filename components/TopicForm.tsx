@@ -75,6 +75,9 @@ export default function TopicForm({
         <p className="mt-2 text-xs text-slate-500">
           The system assumes the learner is starting
           from zero.
+           <br/>
+           <br/>
+            <strong>Disclaimer:</strong> The generated content may contain inaccuracies; to avoid confusion or misinterpretation, always use the full forms of technical terms instead of abbreviations.
         </p>
       </div>
 
