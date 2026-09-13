@@ -109,29 +109,29 @@ This memory is reused in future generations so the system can improve across run
 
 #### Backend
 
-Django
-Django REST Framework
-Python
-LangChain
-Groq
-openai/gpt-oss-20b
-SQLite
+- Django
+- Django REST Framework
+- Python
+- LangChain
+- Groq
+- openai/gpt-oss-20b
+- SQLite
 
 #### Frontend
 
-Next.js
-TypeScript
-React
-Tailwind CSS
-React Markdown
+- Next.js
+- TypeScript
+- React
+- Tailwind CSS
+- React Markdown
 
 The frontend provides:
 
-Topic input
-Generated lesson viewer
-Evaluation results
-Attempt/rejection history
-Changes made during regeneration
+- Topic input
+- Generated lesson viewer
+- Evaluation results
+- Attempt/rejection history
+- Changes made during regeneration
 
 
 
