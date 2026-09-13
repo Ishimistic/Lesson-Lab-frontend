@@ -1,36 +1,168 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Self-Evaluating Lesson Content Generator
 
-## Getting Started
+## Objective
 
-First, run the development server:
+Build an AI-powered system that takes a technical topic and automatically generates a standalone, beginner-friendly lesson, evaluates the lesson against a strict quality rubric, and regenerates it when the lesson fails.
+
+The target learner is a 12th-grade graduate in India with limited English and no prior AI knowledge.
+
+## Core Workflow
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+User
+  │
+  │ topic
+  ▼
+Django API
+  │
+  ▼
+Lesson Generator
+  │
+  ▼
+Lesson Evaluator
+  │
+  ▼
+Is the lesson good enough?
+  │
+  ├────────────── YES ──────────────► Final Output
+  │
+  NO
+  │
+  ▼
+Log Rejection
+  │
+  ▼
+Update Persistent Memory
+  │
+  ▼
+Regenerate Using Evaluator Feedback
+  │
+  ▼
+Evaluate Again
+  │
+  └──────────────► PASS / Retry
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The workflow allows a maximum of 2 retries (maximum 3 generation attempts).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Evaluation Rubric
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Every generated lesson is evaluated on six dimensions:
 
-## Learn More
+1. Accuracy — technically correct, no misleading claims, valid examples.
+2. Beginner-friendly — understandable to the target learner.
+3. Examples — concrete and technically valid examples are provided.
+4. Jargon — technical terms are explained before or when they are used.
+5. Coverage — explains what the topic is, why it matters, and how it works.
+6. Flow — logical progression from basic ideas to examples and recap.
 
-To learn more about Next.js, take a look at the following resources:
+The evaluator produces structured results with:
+```bash
+passed
+reason
+feedback
+```
+for each rubric category.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Self-Correction
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+When an attempt fails:
+```bash
+Evaluator feedback
+       +
+Previous lesson
+       +
+Memory of previous failures
+       ↓
+Regenerator
+```
 
-## Deploy on Vercel
+The system then produces a revised lesson and evaluates it again.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The rejection log records:
+```bash
+Attempt
+Status
+Failed checks
+Evaluator feedback
+Changes made
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Persistent Memory
+
+The system stores recurring failure patterns in the database.
+
+For example:
+```bash
+Failure type:
+Incorrect technical simplification
+
+Lesson learned:
+Do not replace an established technical definition
+with an oversimplified but incorrect explanation.
+```
+This memory is reused in future generations so the system can improve across runs.
+
+
+## Technology Stack
+
+#### Backend
+
+Django
+Django REST Framework
+Python
+LangChain
+Groq
+openai/gpt-oss-20b
+SQLite
+
+#### Frontend
+
+Next.js
+TypeScript
+React
+Tailwind CSS
+React Markdown
+
+The frontend provides:
+
+Topic input
+Generated lesson viewer
+Evaluation results
+Attempt/rejection history
+Changes made during regeneration
+
+
+
+## Future Improvements
+#### 1. Dynamic evidence retrieval
+Retrieve reliable, topic-specific information before generation instead of depending entirely on the model's internal knowledge.
+
+#### 2. Evidence-based evaluation
+Evaluate important technical claims against the retrieved evidence rather than asking the LLM only whether the lesson “sounds accurate.”
+
+#### 3. Claim-level fact checking
+Extract important claims from the generated lesson and verify each claim individually. This makes it easier to identify exactly what is wrong.
+
+#### 4. Source reliability ranking
+Prefer authoritative sources such as official documentation, universities, government organizations, and established technical references over arbitrary web pages.
+
+#### 5. Adaptive regeneration
+Instead of simply sending all feedback back to the generator, regenerate specifically around the failed criteria. For example, an accuracy failure should trigger factual correction rather than a complete rewrite.
+
+#### 6. Improved long-term memory
+Store recurring failure patterns and use them to improve future generations, while keeping factual knowledge separate from lessons learned about generation quality.
+
+#### 7. Human review option
+For high-risk or highly technical topics, allow a human to review the lesson before it is marked as final.
+
+#### 8. Better source management
+Store the sources used for a lesson along with the final output so users can see where the factual information came from.
+
+#### 9. Caching retrieved evidence
+Cache evidence for recently requested topics to reduce repeated retrieval and improve response time.
+
+#### 10. Multi-source verification
+For important technical claims, compare information from multiple independent sources before accepting the claim.
+
