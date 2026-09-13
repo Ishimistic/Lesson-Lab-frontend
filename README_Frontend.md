@@ -114,7 +114,7 @@ frontend/
 
 ## Frontend Setup
 
-#### Step 1 — Clone the repository
+#### Step 1 - Clone the repository
 
 Clone the project repository:
 
@@ -122,7 +122,7 @@ Clone the project repository:
 git clone <YOUR_GITHUB_REPOSITORY_URL>
 ```
 
-#### Step 2 — Install Node.js
+#### Step 2 - Install Node.js
 
 Make sure Node.js and npm are installed.
 
@@ -133,7 +133,7 @@ npm --version
 ```
 The project requires a Node.js version compatible with the Next.js version used in package.json.
 
-#### Step 3 — Install frontend dependencies
+#### Step 3 - Install frontend dependencies
 
 Inside the frontend directory, run:
 ```bash
@@ -142,7 +142,7 @@ npm install
 This installs all dependencies defined in package.json.
 
 
-#### Step 4 — Create environment variables
+#### Step 4 - Create environment variables
 
 Create a file named:
 ```bash
@@ -157,7 +157,7 @@ NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
 This tells the frontend where the Django backend is running
 
 
-#### Step 5 — Set up and start the backend
+#### Step 5 - Set up and start the backend
 
 If the Python virtual environment has already been created:
 
@@ -175,7 +175,7 @@ http://127.0.0.1:8000
 ```
 
 
-#### Step 6 — Start the frontend
+#### Step 6 - Start the frontend
 
 Return to the frontend terminal:
 ``` bash
