@@ -6,41 +6,38 @@ Build an AI-powered system that takes a technical topic and automatically genera
 
 The target learner is a 12th-grade graduate in India with limited English and no prior AI knowledge.
 
-## Core Workflow
-
 ```bash
 User
   │
   │ topic
   ▼
-Django API
+Next.js frontend
   │
   ▼
-Lesson Generator
+POST /api/lessons/generate/
   │
   ▼
-Lesson Evaluator
+Django REST API
   │
   ▼
-Is the lesson good enough?
-  │
-  ├────────────── YES ──────────────► Final Output
-  │
-  NO
+Lesson generation
   │
   ▼
-Log Rejection
+Evaluation
   │
   ▼
-Update Persistent Memory
+Regeneration if required
   │
   ▼
-Regenerate Using Evaluator Feedback
+Final JSON response
   │
   ▼
-Evaluate Again
+Next.js frontend
   │
-  └──────────────► PASS / Retry
+  ▼
+Rendered lesson
++ Evaluation
++ Rejection history
 ```
 
 The workflow allows a maximum of 2 retries (maximum 3 generation attempts).
@@ -114,7 +111,6 @@ This memory is reused in future generations so the system can improve across run
 - Python
 - LangChain
 - Groq
-- openai/gpt-oss-20b
 - SQLite
 
 #### Frontend
