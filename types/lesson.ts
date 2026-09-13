@@ -14,7 +14,7 @@ export type RejectionLog = {
 
 export type LessonResponse = {
   status: "passed" | "failed" | "error";
-  topic: string;
+  topic?: string;
   attempts: number;
   lesson?: string;
   rejection_log: RejectionLog[];

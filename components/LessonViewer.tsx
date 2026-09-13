@@ -2,7 +2,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 type LessonViewerProps = {
-  lesson: string;
+  lesson?: string;
 };
 
 export default function LessonViewer({ lesson }: LessonViewerProps) {

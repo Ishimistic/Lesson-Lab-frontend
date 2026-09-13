@@ -77,9 +77,7 @@ export default function Home() {
                   </h2>
                 </div>
 
-                <LessonViewer
-                  lesson={result.lesson}
-                />
+                <LessonViewer lesson={result.lesson ?? ""} />
               </div>
 
               <div className="min-h-[620px] rounded-xl border border-slate-200 bg-white p-6 shadow-sm">
