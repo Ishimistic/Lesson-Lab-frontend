@@ -1,36 +1,193 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Lesson Lab — Frontend
 
-## Getting Started
+The frontend for **Lesson Lab**, a self-evaluating educational content generation system.
 
-First, run the development server:
+The frontend provides a professional interface where users can enter a topic, generate a lesson through the Django backend, and view the generated lesson, evaluation results, and regeneration history.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+##  Frontend Architecture
+
+The frontend is built using:
+
+- **Next.js** — React framework and application structure
+- **TypeScript** — type-safe development
+- **Tailwind CSS** — UI styling
+- **React Markdown** — renders generated Markdown lessons
+- **REST API** — communicates with the Django backend
+
+### High-Level Architecture
+
+```text
+                    ┌─────────────────────┐
+                    │       User          │
+                    │                     │
+                    │ Enter lesson topic  │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │     Next.js UI      │
+                    │                     │
+                    │ Topic Form           │
+                    │ Lesson Viewer        │
+                    │ Evaluation Panel     │
+                    │ Rejection Log        │
+                    └──────────┬──────────┘
+                               │
+                         HTTP POST
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │    Django REST API  │
+                    │                     │
+                    │ /api/lessons/       │
+                    │     generate/       │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    Backend generates,
+                    evaluates and
+                    regenerates lesson
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │      JSON Response  │
+                    └──────────┬──────────┘
+                               │
+                               ▼
+                    ┌─────────────────────┐
+                    │      Next.js UI      │
+                    │                     │
+                    │ Final Lesson         │
+                    │ Evaluation Results   │
+                    │ Rejection History    │
+                    └─────────────────────┘
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The frontend is responsible for presentation and user interaction.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+The backend is responsible for:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- lesson generation
+- evaluation
+- retry/regeneration logic
+- persistent memory
+- database operations
+- final response construction
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+##  Frontend Project Structure
+```bash
+frontend/
+│
+├── public/
+│
+├── src/
+│   │
+│   ├── app/
+│   │   ├── globals.css
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   │
+│   ├── components/
+│   │   ├── Header.tsx
+│   │   ├── TopicForm.tsx
+│   │   ├── LessonViewer.tsx
+│   │   ├── EvaluationPanel.tsx
+│   │   └── RejectionLog.tsx
+│   │
+│   ├── lib/
+│   │   └── api.ts
+│   │
+│   └── types/
+│       └── lesson.ts
+│
+├── .env.local
+├── package.json
+├── package-lock.json
+├── tsconfig.json
+├── next.config.ts
+└── README.md
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Frontend Setup
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+#### Step 1 — Clone the repository
 
-## Deploy on Vercel
+Clone the project repository:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+git clone <YOUR_GITHUB_REPOSITORY_URL>
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+#### Step 2 — Install Node.js
+
+Make sure Node.js and npm are installed.
+
+Check:
+```bash
+node --version
+npm --version
+```
+The project requires a Node.js version compatible with the Next.js version used in package.json.
+
+#### Step 3 — Install frontend dependencies
+
+Inside the frontend directory, run:
+```bash
+npm install
+```
+This installs all dependencies defined in package.json.
+
+
+#### Step 4 — Create environment variables
+
+Create a file named:
+```bash
+.env.local
+```
+inside the frontend directory.
+
+Add:
+```bash
+NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+```
+This tells the frontend where the Django backend is running
+
+
+#### Step 5 — Set up and start the backend
+
+If the Python virtual environment has already been created:
+
+Windows
+```bash
+venv\Scripts\Activate.ps1
+```
+Then start Django:
+```bash
+python manage.py runserver
+```
+The backend should now be available at:
+```bash
+http://127.0.0.1:8000
+```
+
+
+#### Step 6 — Start the frontend
+
+Return to the frontend terminal:
+``` bash
+cd <frontend-folder-name>
+```
+
+Start the Next.js development server:
+```bash
+npm run dev
+```
+The frontend will be available at:
+```bash
+http://localhost:3000
+```
+Open this address in the browser.
